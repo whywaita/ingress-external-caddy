@@ -65,7 +65,7 @@ func run() error {
 
 	stop := make(chan struct{})
 	defer close(stop)
-	klog.Info("Starting Ingress informer...")
+	klog.Info("Starting ingress-external-caddy ...")
 	go informer.Run(stop)
 
 	select {}

@@ -5,17 +5,21 @@ import (
 	"fmt"
 	"net"
 
+	"github.com/whywaita/ingress-external-caddy/cmd"
+
 	"github.com/caddyserver/caddy/v2"
 	"github.com/caddyserver/caddy/v2/caddyconfig"
 	"github.com/caddyserver/caddy/v2/modules/caddyhttp"
 	"github.com/caddyserver/caddy/v2/modules/caddyhttp/reverseproxy"
 	"github.com/caddyserver/caddy/v2/modules/caddytls"
-	"github.com/whywaita/ingress-external-caddy/cmd"
 	networkingv1 "k8s.io/api/networking/v1"
+	"k8s.io/klog/v2"
 )
 
 // GenerateCaddy generate config of caddyserver
 func GenerateCaddy(ingresses []networkingv1.Ingress, o cmd.Options) (*caddy.Config, error) {
+	klog.Infof("will generate ingresses: %+v", getDomains(ingresses))
+
 	appsConfig, err := getAppsConfig(ingresses, o.BackendURL)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get apps config: %w", err)

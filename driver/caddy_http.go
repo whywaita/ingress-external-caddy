@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/caddyserver/caddy/v2"
+	"k8s.io/klog/v2"
 )
 
 // UpdateConfig request http POST to /load
@@ -42,6 +43,8 @@ func UpdateConfig(conf caddy.Config, host string) error {
 	if resp.StatusCode >= 400 {
 		return fmt.Errorf("invalid status code (code: %d, body: %s)", resp.StatusCode, b)
 	}
+
+	klog.Info("Update successfully!")
 
 	return nil
 }
