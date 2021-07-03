@@ -3,10 +3,10 @@ package driver
 import (
 	"encoding/json"
 	"fmt"
-
-	"github.com/caddyserver/caddy/v2/caddyconfig"
+	"net"
 
 	"github.com/caddyserver/caddy/v2"
+	"github.com/caddyserver/caddy/v2/caddyconfig"
 	"github.com/caddyserver/caddy/v2/modules/caddyhttp"
 	"github.com/caddyserver/caddy/v2/modules/caddyhttp/reverseproxy"
 	"github.com/caddyserver/caddy/v2/modules/caddytls"
@@ -26,14 +26,20 @@ func GenerateCaddy(ingresses []networkingv1.Ingress, o cmd.Options) (*caddy.Conf
 		return nil, fmt.Errorf("failed to get TLS config: %w", err)
 	}
 
+	caddyHost := net.JoinHostPort(o.CaddyHost, "2019")
+
 	pTrue := true
 	c := &caddy.Config{
 		Admin: &caddy.AdminConfig{
-			Listen:   "0.0.0.0:2019",
+			Listen:   caddyHost,
 			Disabled: false,
 			Config: &caddy.ConfigSettings{
 				Persist: &pTrue,
 			},
+			Origins: []string{
+				caddyHost,
+			},
+			EnforceOrigin: true,
 		},
 		AppsRaw: caddy.ModuleMap{
 			"http": caddyconfig.JSON(appsConfig, nil),

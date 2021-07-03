@@ -23,7 +23,7 @@ Please see [setup.md](./docs/setup.md).
 | `--kubeconfig` | file path of kubeconfig (Optional, Default: in-cluster) |
 | `--backend` | URL of backend. caddy will set to upstream |
 | `--provider` | provider of ACME |
-| `--caddy-host` | IP or hostname of caddy provisioned |
+| `--caddy-host` | IP or hostname of caddy provisioned. We recommend set private hostname. |
 
 ### Support provider
 

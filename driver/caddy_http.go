@@ -19,9 +19,18 @@ func UpdateConfig(conf caddy.Config, host string) error {
 		return fmt.Errorf("failed to json.Marshal: %w", err)
 	}
 
-	resp, err := http.Post(u, "application/json", bytes.NewBuffer(d))
+	req, err := http.NewRequest(http.MethodPost, u, bytes.NewBuffer(d))
 	if err != nil {
-		return fmt.Errorf("failed to POST request: %w", err)
+		return fmt.Errorf("failed to http.NewRequest: %w", err)
+	}
+
+	req.Header.Add("Cache-Control", "must-revalidate")
+	req.Header.Add("Content-Type", "application/json")
+
+	client := new(http.Client)
+	resp, err := client.Do(req)
+	if err != nil {
+		return fmt.Errorf("failed to HTTP POST: %w", err)
 	}
 	defer resp.Body.Close()
 
