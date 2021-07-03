@@ -12,6 +12,10 @@ ingress-external-caddy configure an external [Caddy](https://caddyserver.com/) f
  +-------------------+                     +-------------------+ 
 ```
 
+## Setup
+
+Please see [setup.md](./docs/setup.md).
+
 ## Options
 
 | options | description |

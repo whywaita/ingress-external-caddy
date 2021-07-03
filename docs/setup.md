@@ -29,3 +29,12 @@ $ sudo caddy run -config /etc/caddy/config.json -resume /var/tmp
 ```bash
 $ ./ingress-external-caddy --kubeconfig ~/.kube/config --provider cloudflare --cloudflare-email "user@example.com" --cloudflare-api-token "dummy-token" --backend "localhost:8080" --caddy-host "caddy-host"
 ```
+
+## 5. Block outside configuration
+
+caddy will listen `0.0.0.0`. It can change the configuration from the world. So We **force recommend** block HTTP access from the untrust world.
+
+For example...
+
+- iptables
+- firewalld
